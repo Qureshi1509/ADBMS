@@ -1,0 +1,85 @@
+{
+    _id: ObjectId('660f02197c037f5b686b65bf'),
+    Date: ISODate('2021-12-31T18:30:00.000Z'),
+    Domain: 'INVESTMENTS',
+    Location: 'Kannur',
+    Value: 770080,
+    Transaction_count: 2431
+  }
+  db.sales.find({ Location: 'Bhuj' }).explain("executionStats");
+  executionStats: {
+    executionSuccess: true,
+    nReturned: 747,
+    executionTimeMillis: 55,
+    totalKeysExamined: 0,
+    totalDocsExamined: 34000,
+    executionStages: {
+      stage: 'COLLSCAN',
+      filter: { Location: { '$eq': 'Bhuj' } },
+      nReturned: 747,
+      executionTimeMillisEstimate: 3,
+      works: 34001,
+      advanced: 747,
+      needTime: 33253,
+      needYield: 0,
+      saveState: 34,
+      restoreState: 34,
+      isEOF: 1,
+      direction: 'forward',
+      docsExamined: 34000
+    }
+    db.sales.createIndex({ Location: 1 });
+    db.sales.getIndexes()
+    [
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { Location: 1 }, name: 'Location_1' }
+]
+db.sales.find({ Location: 'Bhuj' }).explain("executionStats");
+executionStats: {
+    executionSuccess: true,
+    nReturned: 747,
+    executionTimeMillis: 49,
+    totalKeysExamined: 747,
+    totalDocsExamined: 747,
+    executionStages: {
+      stage: 'FETCH',
+      nReturned: 747,
+      executionTimeMillisEstimate: 45,
+      works: 748,
+      advanced: 747,
+      needTime: 0,
+      needYield: 0,
+      saveState: 1,
+      restoreState: 1,
+      isEOF: 1,
+      docsExamined: 747,
+      alreadyHasObj: 0,
+      inputStage: {
+        stage: 'IXSCAN',
+        nReturned: 747,
+        executionTimeMillisEstimate: 45,
+        works: 748,
+        advanced: 747,
+        needTime: 0,
+        needYield: 0,
+        saveState: 1,
+        restoreState: 1,
+        isEOF: 1,
+        keyPattern: { Location: 1 },
+        indexName: 'Location_1',
+        isMultiKey: false,
+        multiKeyPaths: { Location: [] },
+        isUnique: false,
+        isSparse: false,
+        isPartial: false,
+        indexVersion: 2,
+        direction: 'forward',
+        indexBounds: { Location: [ '["Bhuj", "Bhuj"]' ] },
+        keysExamined: 747,
+        seeks: 1,
+        dupsTested: 0,
+        dupsDropped: 0
+      }
+    }
+  }  
+  db.sales.dropIndex('Location_1')
